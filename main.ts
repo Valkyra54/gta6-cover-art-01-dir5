@@ -5,7 +5,7 @@
 // Running it twice writes identical bytes. Outside the grader, the
 // MAKEFUN_OUTPUT_DIR environment variable stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
@@ -14,12 +14,16 @@ const repoRoot = fileURLToPath(new URL('.', import.meta.url));
 const target = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
 // Start from an empty output directory so a second run cannot leave stale
-// files behind and both runs write the same bytes.
+// files behind and both runs write the same bytes. Only the CONTENTS are
+// cleared: the directory itself is never deleted, because in the grader it
+// is a mounted volume and removing the mount point fails.
 if (!existsSync(join(repoRoot, 'app'))) {
   throw new Error(`no app/ folder beside main.ts (looked in ${repoRoot})`);
 }
-rmSync(target, { recursive: true, force: true });
 mkdirSync(target, { recursive: true });
+for (const entry of readdirSync(target)) {
+  rmSync(join(target, entry), { recursive: true, force: true });
+}
 cpSync(join(repoRoot, 'app'), join(target, 'app'), { recursive: true });
 if (existsSync(join(repoRoot, 'screenshots'))) {
   cpSync(join(repoRoot, 'screenshots'), join(target, 'screenshots'), { recursive: true });
