@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two for the Road — sunset cover maker</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>Two for the Road</h1>
+    <p class="sub">Two people, one car, a sunset behind them — turn your photos into cover art.</p>
+  </div>
+  <p class="steps"><span>1 · Pick photos</span><span>2 · Pick a layout</span><span>3 · Export</span></p>
+</header>
+<main class="workbench">
+  <aside class="panel" id="controls">
+    <section>
+      <h2>Photos</h2>
+      <p class="hint">Click a photo to fill the selected frame. Drag on the preview to pan a photo, scroll to zoom it.</p>
+      <div class="tray" id="tray"></div>
+      <label class="filebtn">Upload your own photos
+        <input id="upload" type="file" accept="image/*" multiple hidden>
+      </label>
+    </section>
+    <section>
+      <h2>Layout</h2>
+      <div class="choices" id="layoutChoices">
+        <button data-layout="duo" class="on">Duo Hood</button>
+        <button data-layout="split">Split</button>
+        <button data-layout="car">Car</button>
+      </div>
+    </section>
+    <section>
+      <h2>Words</h2>
+      <label>Title <input id="caption" type="text" value="TWO FOR THE ROAD" maxlength="48"></label>
+      <label>Tagline <input id="tagline" type="text" value="EVERY SUNSET HAS A PRICE" maxlength="64"></label>
+      <label>Her name <input id="nameHer" type="text" value="MARA VOSS" maxlength="24"></label>
+      <label>His name <input id="nameHim" type="text" value="DARIO KENT" maxlength="24"></label>
+    </section>
+    <section>
+      <h2>Sunset grade</h2>
+      <label>Sunset <span id="sunsetVal">70</span>
+        <input id="sunset" type="range" min="0" max="100" value="70">
+      </label>
+      <label class="check"><input id="neon" type="checkbox" checked> Neon glow on frames</label>
+    </section>
+    <section>
+      <h2>Export PNG</h2>
+      <div class="choices" id="sizeChoices">
+        <button data-size="1080x1080">Square · 1080×1080</button>
+        <button data-size="1080x1350">Portrait · 1080×1350</button>
+        <button data-size="1920x1080" class="on">Wide · 1920×1080</button>
+      </div>
+      <button id="exportBtn" class="export">Export PNG</button>
+      <p id="status" class="status" role="status">Ready.</p>
+    </section>
+  </aside>
+  <section class="stage-wrap">
+    <canvas id="stage" width="1280" height="720"></canvas>
+    <p class="stage-hint">Click a frame to select it, then click a photo in the tray to fill it.</p>
+  </section>
+</main>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
